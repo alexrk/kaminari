@@ -1,8 +1,14 @@
 # frozen_string_literal: true
+require 'kaminari/activerecord/paginable_without_count'
+
 module Kaminari
   module ActiveRecordRelationMethods
     def entry_name(options = {})
       model_name.human(options.reverse_merge(:default => model_name.human.pluralize(options[:count])))
+    end
+
+    def without_count
+      extend(::Kaminari::PaginableWithoutCount)
     end
 
     def reset #:nodoc:
