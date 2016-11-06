@@ -26,6 +26,10 @@ module Kaminari
       paginator.to_s
     end
 
+    def paginate_without_count(scope, options = {})
+      Helpers::PaginatorWithoutCount.new(self, options.reverse_merge(current_page: scope.current_page, per_page: scope.limit_value, last: scope.last_page?, out_of_range: scope.out_of_range?)).to_s
+    end
+
     # A simple "Twitter like" pagination link that creates a link to the previous page.
     #
     # ==== Examples

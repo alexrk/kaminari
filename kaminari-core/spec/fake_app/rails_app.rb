@@ -23,6 +23,8 @@ app.routes.draw do
   resources :addresses do
     get 'page/:page', :action => :index, :on => :collection
   end
+
+  get 'paginate_without_count', controller: :users, action: :paginate_without_count
 end
 
 #models
@@ -41,6 +43,14 @@ ERB
 
   def index_text
     @users = User.page params[:page]
+  end
+
+  def paginate_without_count
+    @users = User.page(params[:page]).without_count
+    render inline: <<-ERB
+      <%= @users.map(&:name).join("\n") %>
+      <%= paginate_without_count @users %>
+    ERB
   end
 end
 
